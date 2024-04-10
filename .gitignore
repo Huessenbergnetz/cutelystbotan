@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # C++ objects and libs
 *.slo
 *.lo
