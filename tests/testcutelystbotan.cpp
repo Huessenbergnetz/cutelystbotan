@@ -34,7 +34,8 @@ private slots:
     void benchmarkPasshash9();
     void testInvalidHashString();
 
-    void testTune();
+    void testTuneArgon2();
+    void testTunePasshash9();
 
     void testSetPasswordField();
     void testSetPasswordPreSalt();
@@ -151,13 +152,25 @@ void CutelystBotanTest::benchmarkPasshash9()
     }
 }
 
-void CutelystBotanTest::testTune()
+void CutelystBotanTest::testTuneArgon2()
 {
-    auto params = CredentialBotan::tuneArgon2(
+    auto params = CredentialBotan::tune(
         CredentialBotan::Type::Argon2id, 32, std::chrono::milliseconds{300}, 256);
     QVERIFY(params.memory > 0);
     QVERIFY(params.iterations > 0);
     QVERIFY(params.parallelism > 0);
+}
+
+void CutelystBotanTest::testTunePasshash9()
+{
+    auto params = CredentialBotan::tune(CredentialBotan::Type::Passhash9,
+                                        32,
+                                        std::chrono::milliseconds{300},
+                                        256,
+                                        CredentialBotan::Passhash9Algo::HmacSha512);
+    QCOMPARE(params.memory, 0);
+    QVERIFY(params.iterations > 1);
+    QCOMPARE(params.parallelism, 0);
 }
 
 void CutelystBotanTest::testInvalidHashString()
