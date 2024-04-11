@@ -54,8 +54,11 @@ set_target_properties(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Bota
 
 target_link_libraries(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan
     PUBLIC
+        Qt::Core
         Cutelyst::Core
-        Qt${QT_VERSION_MAJOR}::Core
+        Cutelyst::Authentication
+    PRIVATE
+        PkgConfig::Botan
 )
 
 install(TARGETS Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan

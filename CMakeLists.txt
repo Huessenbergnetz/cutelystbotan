@@ -21,6 +21,8 @@ set(QT_MINIMUM_VERSION 6.2)
 
 find_package(Qt${QT_VERSION_MAJOR} ${QT_MINIMUM_VERSION} COMPONENTS Core Network REQUIRED)
 find_package(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR} 4.0.0 REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_search_module(Botan REQUIRED IMPORTED_TARGET botan-2)
 
 set(CUTELYSTBOTAN_API_LEVEL "0")
 
