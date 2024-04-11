@@ -34,6 +34,8 @@ private slots:
     void benchmarkPasshash9();
     void testInvalidHashString();
 
+    void testTune();
+
     void testSetPasswordField();
     void testSetPasswordPreSalt();
     void testSetPasswordPostSalt();
@@ -51,13 +53,13 @@ void CutelystBotanTest::initTestCase()
     password = u"no one should ever know"_qs;
 
     argon2Hash = CredentialBotan::createArgon2Password(password);
-    QVERIFY(!argon2Hash.isEmpty());
+    QVERIFY(argon2Hash.startsWith(u"$argon2"_qs));
 
     bcryptHash = CredentialBotan::createBcryptPassword(password);
-    QVERIFY(!bcryptHash.isEmpty());
+    QVERIFY(bcryptHash.startsWith(u"$2"_qs));
 
     passhash9Hash = CredentialBotan::createPasshash9Password(password);
-    QVERIFY(!passhash9Hash.isEmpty());
+    QVERIFY(passhash9Hash.startsWith(u"$9$"_qs));
 }
 
 void CutelystBotanTest::testArgon2()
@@ -147,6 +149,15 @@ void CutelystBotanTest::benchmarkPasshash9()
     {
         CredentialBotan::validatePassword(password, passhash9Hash);
     }
+}
+
+void CutelystBotanTest::testTune()
+{
+    auto params = CredentialBotan::tuneArgon2(
+        CredentialBotan::Type::Argon2id, 32, std::chrono::milliseconds{300}, 256);
+    QVERIFY(params.memory > 0);
+    QVERIFY(params.iterations > 0);
+    QVERIFY(params.parallelism > 0);
 }
 
 void CutelystBotanTest::testInvalidHashString()

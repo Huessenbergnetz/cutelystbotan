@@ -241,6 +241,56 @@ QByteArray CredentialBotan::createPasshash9Password(const QByteArray &password)
         password, defaultWorkFactor, Passhash9Algo::HmacSha512);
 }
 
+CredentialBotan::Params CredentialBotan::tuneArgon2(Type type,
+                                                    size_t outputLength,
+                                                    std::chrono::milliseconds runtime,
+                                                    size_t maxMemoryUsageMb)
+{
+    std::string algo;
+
+    switch (type) {
+    case Type::Argon2id:
+        algo = "Argon2id";
+        break;
+    case Type::Argon2i:
+        algo = "Argon2i";
+        break;
+    case Type::Argon2d:
+        algo = "Argon2d";
+        break;
+    case Type::Bcrypt:
+    case Type::Passhash9:
+    case Type::Invalid:
+        qCCritical(C_CREDENTIALBOTAN) << "Currently only Argon2 tuning is supported.";
+        return {};
+    }
+
+    // if (type == Type::Passhash9) {
+    //     switch(ph9Algo) {
+    //     case Passhash9Algo::HmacSha1:
+    //         algo = "PBKDF2(HMAC(SHA-1))";
+    //         break;
+    //     case Passhash9Algo::HmacSha256:
+    //         algo = "PBKDF2(HMAC(SHA-256))";
+    //         break;
+    //     case Passhash9Algo::CmacBlowfish:
+    //         algo = "PBKDF2(CMAC(Blowfish))";
+    //         break;
+    //     case Passhash9Algo::HmacSha384:
+    //         algo = "PBKDF2(HMAC(SHA-384))";
+    //         break;
+    //     case Passhash9Algo::HmacSha512:
+    //         algo = "PBKDF2(HMAC(SHA-512))";
+    //         break;
+    //     }
+    // }
+
+    auto family = Botan::PasswordHashFamily::create(algo);
+    auto hash   = family->tune(outputLength, runtime, maxMemoryUsageMb);
+
+    return {hash->iterations(), hash->memory_param(), hash->parallelism()};
+}
+
 bool CredentialBotanPrivate::checkPassword(const Cutelyst::AuthenticationUser &user,
                                            const Cutelyst::ParamsMultiMap &authinfo)
 {

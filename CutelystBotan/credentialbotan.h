@@ -87,6 +87,17 @@ public:
 
     inline static QString createPasshash9Password(const QString &password);
 
+    struct Params {
+        size_t iterations{0};
+        size_t memory{0};
+        size_t parallelism{0};
+    };
+
+    static Params tuneArgon2(Type type,
+                             size_t outputLength,
+                             std::chrono::milliseconds runtime,
+                             size_t maxMemoryUsageMb = 0);
+
 private:
     const std::unique_ptr<CredentialBotanPrivate> d_ptr;
 };
