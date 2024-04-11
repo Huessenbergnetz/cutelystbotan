@@ -5,4 +5,4 @@ SPDX-License-Identifier: BSD-3-Clause
 -->
 
 # cutelystbotan
-Authentication credential provider for Cutelyst using Botan for password hashing.
+Authentication credential provider for [Cutelyst](https://cutelyst.org/) using [Botan](https://botan.randombit.net/) for password hashing.
