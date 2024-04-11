@@ -34,6 +34,11 @@ private slots:
     void benchmarkPasshash9();
     void testInvalidHashString();
 
+    void testSetPasswordField();
+    void testSetPasswordPreSalt();
+    void testSetPasswordPostSalt();
+    void testDefaultConstructor();
+
 private:
     QString password;
     QString argon2Hash;
@@ -149,6 +154,38 @@ void CutelystBotanTest::testInvalidHashString()
     QString invalid = argon2Hash;
     invalid.replace(1, 1, 'b');
     QVERIFY(!CredentialBotan::validatePassword(password, invalid));
+}
+
+void CutelystBotanTest::testSetPasswordField()
+{
+    CredentialBotan bt;
+    const QString pwfield = u"passwort"_qs;
+    bt.setPasswordField(pwfield);
+    QCOMPARE(bt.passwordField(), pwfield);
+}
+
+void CutelystBotanTest::testSetPasswordPreSalt()
+{
+    CredentialBotan bt;
+    const QString salt = u"Lorem ipsum"_qs;
+    bt.setPasswordPreSalt(salt);
+    QCOMPARE(bt.passwordPreSalt(), salt);
+}
+
+void CutelystBotanTest::testSetPasswordPostSalt()
+{
+    CredentialBotan bt;
+    const QString salt = u"Trallala"_qs;
+    bt.setPasswordPostSalt(salt);
+    QCOMPARE(bt.passwordPostSalt(), salt);
+}
+
+void CutelystBotanTest::testDefaultConstructor()
+{
+    CredentialBotan bt;
+    QCOMPARE(bt.passwordField(), u"password"_qs);
+    QVERIFY(bt.passwordPreSalt().isEmpty());
+    QVERIFY(bt.passwordPostSalt().isEmpty());
 }
 
 QTEST_MAIN(CutelystBotanTest)
