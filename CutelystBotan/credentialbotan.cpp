@@ -147,7 +147,7 @@ QByteArray CredentialBotan::createArgon2Password(const QByteArray &password,
 QByteArray CredentialBotan::createArgon2Password(const QByteArray &password)
 {
     constexpr size_t parallelization = 1;
-    constexpr size_t memory          = 1048576;
+    constexpr size_t memory          = 262144;
     constexpr size_t iterations      = 1;
     constexpr size_t saltLength      = 16;
     constexpr size_t outputLength    = 32;
@@ -216,7 +216,7 @@ QByteArray CredentialBotan::createPasshash9Password(const QByteArray &password,
 
 QByteArray CredentialBotan::createPasshash9Password(const QByteArray &password)
 {
-    constexpr uint16_t defaultWorkFactor = 15;
+    constexpr uint16_t defaultWorkFactor = 20;
     return CredentialBotan::createPasshash9Password(
         password, defaultWorkFactor, Passhash9Algo::HmacSha512);
 }
