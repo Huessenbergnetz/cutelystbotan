@@ -41,8 +41,11 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
 option(BUILD_SHARED_LIBS "Build in shared lib mode" ON)
 option(ENABLE_TESTS "Build the unit tests" OFF)
-option(BUILD_DOCS "Enable the build of doxygen docs" OFF)
-option(BUILD_DOCS_QUIET "Tell doxygen to be quiet while building the documentation." OFF)
+option(ENABLE_MAINTAINER_CFLAGS "Enable maintainer CFlags" OFF)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (ENABLE_TESTS)
     enable_testing()

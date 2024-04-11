@@ -20,11 +20,6 @@ add_library(CutelystBotan::Core ALIAS Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VE
 
 generate_export_header(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan BASE_NAME cutelystbotan)
 
-target_compile_features(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan
-    PUBLIC
-        cxx_std_20
-)
-
 target_include_directories(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
@@ -43,7 +38,33 @@ target_compile_definitions(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR
         QT_NO_SIGNALS_SLOTS_KEYWORDS
         QT_USE_FAST_OPERATOR_PLUS
         QT_DISABLE_DEPRECATED_BEFORE=0x060200
+        $<$<BOOL:${ENABLE_MAINTAINER_CFLAGS}>:QT_DEPRECATED_WARNINGS>
 )
+
+if(ENABLE_MAINTAINER_CFLAGS)
+    if(NOT MSVC)
+      target_compile_options(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan PRIVATE
+        -Wall
+        -Wextra
+        -Wcast-align
+        -Wno-uninitialized
+        -Wempty-body
+        -Wformat-security
+        -Wformat
+        -Winit-self
+        -Wunused-variable
+      )
+    endif()
+
+    if(APPLE)
+      target_compile_options(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan PRIVATE -Wweak-vtables)
+    endif()
+endif(ENABLE_MAINTAINER_CFLAGS)
+
+# Enable -Werror
+if(NOT MSVC OR IS_CLANG_BUILD) # clang-cl accepts these too
+    target_compile_options(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan PRIVATE -Werror -Wundef -Wno-error=deprecated-declarations)
+endif()
 
 set_target_properties(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Botan PROPERTIES
     EXPORT_NAME Core
