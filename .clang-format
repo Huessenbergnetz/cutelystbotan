@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
-﻿# .clang-format for cutelystbotan 2024-04-10
+#.clang-format for cutelystbotan 2024-04-10
 # Tries to be close to Qt coding style
 ---
 Language: Cpp
