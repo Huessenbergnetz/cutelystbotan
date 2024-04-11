@@ -12,6 +12,14 @@
 #include <memory>
 #include <string>
 
+#include <QLoggingCategory>
+
+#if defined(QT_DEBUG)
+Q_LOGGING_CATEGORY(C_CREDENTIALBOTAN, "cutelyst.plugin.credentialbotan")
+#else
+Q_LOGGING_CATEGORY(C_CREDENTIALBOTAN, "cutelyst.plugin.credentialbotan", QtWarningMsg)
+#endif
+
 namespace CutelystBotan {
 
 class CredentialBotanPrivate
@@ -84,7 +92,10 @@ Cutelyst::AuthenticationUser CredentialBotan::authenticate(Cutelyst::Context *c,
         if (d->checkPassword(user, authinfo)) {
             return user;
         }
+        qCDebug(C_CREDENTIALBOTAN) << "Password didn’t match";
     }
+
+    qCDebug(C_CREDENTIALBOTAN) << "Unable to locate a user matching user info provided in realm.";
 
     return {};
 }
@@ -105,6 +116,9 @@ bool CredentialBotan::validatePassword(const QByteArray &password, const QByteAr
         const std::string pw   = password.toStdString();
         return Botan::check_passhash9(pw, hash);
     }
+
+    qCCritical(C_CREDENTIALBOTAN)
+        << "Invalid password hash. Does not contain a supported hash identifier.";
 
     return false;
 }
@@ -128,6 +142,8 @@ QByteArray CredentialBotan::createArgon2Password(const QByteArray &password,
         argonType = static_cast<uint8_t>(Type::Argon2d);
         break;
     default:
+        qCCritical(C_CREDENTIALBOTAN)
+            << "Failed to create Argon2 password hash: invalid type selected.";
         return {};
     }
 
@@ -163,6 +179,8 @@ QByteArray CredentialBotan::createBcryptPassword(const QByteArray &password,
     constexpr uint16_t minWorkFactor = 4;
     constexpr uint16_t maxWorkFactor = 18;
     if ((workFactor < minWorkFactor) || (workFactor > maxWorkFactor)) {
+        qCCritical(C_CREDENTIALBOTAN)
+            << "Failed to create Bcrypt password hash: invalid work factor < 4 or > 18.";
         return {};
     }
 
@@ -186,6 +204,8 @@ QByteArray CredentialBotan::createPasshash9Password(const QByteArray &password,
     constexpr uint16_t minWorkFactor = 1;
     constexpr uint16_t maxWorkFactor = 512;
     if ((workFactor < minWorkFactor) || (workFactor > maxWorkFactor)) {
+        qCCritical(C_CREDENTIALBOTAN)
+            << "Failed to create Passhash9 password hash: invalid work factor < 1 or > 512.";
         return {};
     }
 
