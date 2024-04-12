@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/include/cutelyst@CUTELYST_VERSION_MAJOR@botan-qt@QT_VERSION_MAJOR@
+
+Name: Cutelyst@CUTELYST_VERSION_MAJOR@ Qt@QT_VERSION_MAJOR@ CredentialBotan Plugin
+Description: Authentication credential provider for Cutelyst using Botan for password hashing.
+Version: @PROJECT_VERSION@
+URL: @PROJECT_HOMEPAGE_URL@
+Requires: Cutelyst@CUTELYST_VERSION_MAJOR@Qt@QT_VERSION_MAJOR@Authentication >= @CUTELYST_MINIMUM_VERSION@
+Libs: -L${libdir} -lCutelyst@CUTELYST_VERSION_MAJOR@Qt@QT_VERSION_MAJOR@Botan
+Cflags: -I${includedir}/CutelystBotan -I${includedir}

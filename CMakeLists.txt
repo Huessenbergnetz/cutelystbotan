@@ -16,11 +16,12 @@ include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
 set(CUTELYST_VERSION_MAJOR 4)
+set(CUTELYST_MINIMUM_VERSION 4.0.0)
 set(QT_VERSION_MAJOR 6)
 set(QT_MINIMUM_VERSION 6.2)
 
 find_package(Qt${QT_VERSION_MAJOR} ${QT_MINIMUM_VERSION} COMPONENTS Core Network REQUIRED)
-find_package(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR} 4.0.0 REQUIRED)
+find_package(Cutelyst${CUTELYST_VERSION_MAJOR}Qt${QT_VERSION_MAJOR} ${CUTELYST_MINIMUM_VERSION} REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(Botan REQUIRED IMPORTED_TARGET botan-2)
 
