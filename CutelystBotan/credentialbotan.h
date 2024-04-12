@@ -21,6 +21,11 @@ class CredentialBotanPrivate;
  * by for example a HTML login formular or another source for login data. It uses the
  * <A HREF="">Botan</A> library to provide different algorithms for password hashing.
  *
+ * This supports Argon2, Bcrypt and Passhash9 password hashing. When in doubt what to use,
+ * use Argon2id by calling createArgon2Password() with no parameters. If you want to tune
+ * the hash settings to fit to a specified computation time, use tune() to get appropriate
+ * settings.
+ *
  * More information about password hashing with Botan can be found
  * <A HREF="https://botan.randombit.net/handbook/api_ref/passhash.html">here</A>.
  */
