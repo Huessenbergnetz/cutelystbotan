@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(cutelystbotan
-    VERSION 0.0.1
+    VERSION 1.0.0
     DESCRIPTION "Authentication credential provider for Cutelyst using Botan for password hashing."
     HOMEPAGE_URL "https://github.com/Huessenbergnetz/cutelystbotan"
     LANGUAGES CXX
