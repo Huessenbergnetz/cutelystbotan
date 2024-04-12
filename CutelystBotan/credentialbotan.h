@@ -113,19 +113,22 @@ public:
      * in the \a authinfo and in the AuthenticationUser found by the \a realm. On success,
      * a not null AuthenticationUser object will be returned.
      */
-    Cutelyst::AuthenticationUser authenticate(Cutelyst::Context *c,
-                                              Cutelyst::AuthenticationRealm *realm,
-                                              const Cutelyst::ParamsMultiMap &authinfo) final;
+    [[nodiscard]] Cutelyst::AuthenticationUser
+        authenticate(Cutelyst::Context *c,
+                     Cutelyst::AuthenticationRealm *realm,
+                     const Cutelyst::ParamsMultiMap &authinfo) final;
 
     /**
      * Validates the given \a password against the \a correctHash and returns \c true on success.
      */
-    static bool validatePassword(const QByteArray &password, const QByteArray &correctHash);
+    [[nodiscard]] static bool validatePassword(const QByteArray &password,
+                                               const QByteArray &correctHash);
 
     /**
      * Validates the given \a password against the \a correctHash and returns \c true on success.
      */
-    inline static bool validatePassword(const QString &password, const QString &correctHash);
+    [[nodiscard]] inline static bool validatePassword(const QString &password,
+                                                      const QString &correctHash);
 
     /**
      * Returns a password hash using the Argon2 algorithm specified by \a type of \a outputLength
@@ -163,25 +166,25 @@ public:
      *
      * \sa tuneArgon2()
      */
-    static QByteArray createArgon2Password(const QByteArray &password,
-                                           Type type,
-                                           size_t parallelization,
-                                           size_t memory,
-                                           size_t iterations,
-                                           size_t saltLength,
-                                           size_t outputLength);
+    [[nodiscard]] static QByteArray createArgon2Password(const QByteArray &password,
+                                                         Type type,
+                                                         size_t parallelization,
+                                                         size_t memory,
+                                                         size_t iterations,
+                                                         size_t saltLength,
+                                                         size_t outputLength);
 
     /**
      * Returns a password hashed with Argon2id, parallelization = 1, iterations = 1 and
      * maximum memory usage of 256MB. The salt length is 16 and the output length is 32.
      */
-    static QByteArray createArgon2Password(const QByteArray &password);
+    [[nodiscard]] static QByteArray createArgon2Password(const QByteArray &password);
 
     /**
      * Returns a password hashed with Argon2id, parallelization = 1, iterations = 1 and
      * maximum memory usage of 256MB. The salt length is 16 and the output length is 32.
      */
-    inline static QString createArgon2Password(const QString &password);
+    [[nodiscard]] inline static QString createArgon2Password(const QString &password);
 
     /**
      * Returns a password hash using the Bcrypt algorithm with the given \a workFactor and
@@ -236,18 +239,18 @@ public:
      * @param version       The version to used (see note above).
      * @return The hashed password on success, otherwise an empty byte array.
      */
-    static QByteArray
+    [[nodiscard]] static QByteArray
         createBcryptPassword(const QByteArray &password, uint16_t workFactor, char version = 'a');
 
     /**
      * Returns a password hashed with Bcrypt using a work factor of \c 12.
      */
-    static QByteArray createBcryptPassword(const QByteArray &password);
+    [[nodiscard]] static QByteArray createBcryptPassword(const QByteArray &password);
 
     /**
      * Returns a password hashed with Bcrypt using a work factor of \c 12.
      */
-    inline static QString createBcryptPassword(const QString &password);
+    [[nodiscard]] inline static QString createBcryptPassword(const QString &password);
 
     /**
      * Returns a password hashed with the Passhash9 algorithm which is based on PBKDF2 using
@@ -266,21 +269,21 @@ public:
      * @param algorithm     The MAC and hashing algorithm to use.
      * @return The hashed password on success, otherwise an empty byte array.
      */
-    static QByteArray createPasshash9Password(const QByteArray &password,
-                                              uint16_t workFactor,
-                                              Passhash9Algo algorithm);
+    [[nodiscard]] static QByteArray createPasshash9Password(const QByteArray &password,
+                                                            uint16_t workFactor,
+                                                            Passhash9Algo algorithm);
 
     /**
      * Returns a password hashed with Passhash9 using HMAC(SHA-256) algorithm
      * and 200.000 iterations (workFactor set to 20).
      */
-    static QByteArray createPasshash9Password(const QByteArray &password);
+    [[nodiscard]] static QByteArray createPasshash9Password(const QByteArray &password);
 
     /**
      * Returns a password hashed with Passhash9 using HMAC(SHA-256) algorithm
      * and 200.000 iterations (workFactor set to 20).
      */
-    inline static QString createPasshash9Password(const QString &password);
+    [[nodiscard]] inline static QString createPasshash9Password(const QString &password);
 
     /**
      * Contains tuning parameters returned by tune().
@@ -310,11 +313,11 @@ public:
      * @param ph9Algo           The HMAC and hash algo used by Passhash9.
      * @return Params struct containing the tuned parameters.
      */
-    static Params tune(Type type,
-                       size_t outputLength,
-                       std::chrono::milliseconds runtime,
-                       size_t maxMemoryUsageMb = 0,
-                       Passhash9Algo ph9Algo   = Passhash9Algo::HmacSha512);
+    [[nodiscard]] static Params tune(Type type,
+                                     size_t outputLength,
+                                     std::chrono::milliseconds runtime,
+                                     size_t maxMemoryUsageMb = 0,
+                                     Passhash9Algo ph9Algo   = Passhash9Algo::HmacSha512);
 
 private:
     const std::unique_ptr<CredentialBotanPrivate> d_ptr;

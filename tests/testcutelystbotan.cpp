@@ -96,7 +96,7 @@ void CutelystBotanTest::benchmarkArgon2()
 {
     QBENCHMARK
     {
-        CredentialBotan::validatePassword(password, argon2Hash);
+        auto hash = CredentialBotan::validatePassword(password, argon2Hash);
     }
 }
 
@@ -120,7 +120,7 @@ void CutelystBotanTest::benchmarkBcrypt()
 {
     QBENCHMARK
     {
-        CredentialBotan::validatePassword(password, bcryptHash);
+        auto hash = CredentialBotan::validatePassword(password, bcryptHash);
     }
 }
 
@@ -148,7 +148,7 @@ void CutelystBotanTest::benchmarkPasshash9()
 {
     QBENCHMARK
     {
-        CredentialBotan::validatePassword(password, passhash9Hash);
+        auto hash = CredentialBotan::validatePassword(password, passhash9Hash);
     }
 }
 
