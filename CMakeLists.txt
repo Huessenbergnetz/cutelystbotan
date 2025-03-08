@@ -15,7 +15,7 @@ include(GNUInstallDirs)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
-set(CUTELYST_VERSION_MAJOR 4)
+set(CUTELYST_VERSION_MAJOR 4 CACHE STRING "Major version of Cutelyst to use for build")
 set(CUTELYST_MINIMUM_VERSION 4.0.0)
 set(QT_VERSION_MAJOR 6)
 set(QT_MINIMUM_VERSION 6.4)
