@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: (C) 2024 Matthias Fehring <https://www.huessenbergnetz.de>
+# SPDX-FileCopyrightText: (C) 2024-2025 Matthias Fehring <https://www.huessenbergnetz.de>
 # SPDX-License-Identifier: BSD-3-Clause
 
 rebuild_master:
@@ -6,6 +6,9 @@ rebuild_master:
     - trigger_services:
         project: home:buschmann23:Cutelyst:devel
         package: cutelyst4botan-qt6
+    - trigger_services:
+        project: home:buschmann23:Cutelyst:devel
+        package: cutelyst5botan-qt6
   filters:
     event: push
     branches:
