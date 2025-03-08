@@ -29,7 +29,7 @@ public:
                        const Cutelyst::ParamsMultiMap &authinfo);
     static CredentialBotan::Type checkPwType(const QByteArray &hashedPw);
 
-    QString passwordField{u"password"_qs};
+    QString passwordField{QStringLiteral("password")};
     QString passwordPreSalt;
     QString passwordPostSalt;
 };

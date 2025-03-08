@@ -7,6 +7,7 @@
 #include <QTest>
 
 using namespace CutelystBotan;
+using namespace Qt::Literals::StringLiterals;
 
 class CutelystBotanTest final : public QObject
 {
@@ -51,16 +52,16 @@ private:
 
 void CutelystBotanTest::initTestCase()
 {
-    password = u"no one should ever know"_qs;
+    password = u"no one should ever know"_s;
 
     argon2Hash = CredentialBotan::createArgon2Password(password);
-    QVERIFY(argon2Hash.startsWith(u"$argon2"_qs));
+    QVERIFY(argon2Hash.startsWith(u"$argon2"_s));
 
     bcryptHash = CredentialBotan::createBcryptPassword(password);
-    QVERIFY(bcryptHash.startsWith(u"$2"_qs));
+    QVERIFY(bcryptHash.startsWith(u"$2"_s));
 
     passhash9Hash = CredentialBotan::createPasshash9Password(password);
-    QVERIFY(passhash9Hash.startsWith(u"$9$"_qs));
+    QVERIFY(passhash9Hash.startsWith(u"$9$"_s));
 }
 
 void CutelystBotanTest::testArgon2()
@@ -70,7 +71,7 @@ void CutelystBotanTest::testArgon2()
 
 void CutelystBotanTest::testArgon2Wrong()
 {
-    QVERIFY(!CredentialBotan::validatePassword(u"some attempt"_qs, argon2Hash));
+    QVERIFY(!CredentialBotan::validatePassword(u"some attempt"_s, argon2Hash));
 }
 
 void CutelystBotanTest::testArgon2InvalidType()
@@ -107,7 +108,7 @@ void CutelystBotanTest::testBcrypt()
 
 void CutelystBotanTest::testBcryptWrong()
 {
-    QVERIFY(!CredentialBotan::validatePassword(u"some attempt"_qs, bcryptHash));
+    QVERIFY(!CredentialBotan::validatePassword(u"some attempt"_s, bcryptHash));
 }
 
 void CutelystBotanTest::testBcryptInvalidWorkFactor()
@@ -131,7 +132,7 @@ void CutelystBotanTest::testPasshash9()
 
 void CutelystBotanTest::testPasshash9Wrong()
 {
-    QVERIFY(!CredentialBotan::validatePassword(u"some attempt"_qs, passhash9Hash));
+    QVERIFY(!CredentialBotan::validatePassword(u"some attempt"_s, passhash9Hash));
 }
 
 void CutelystBotanTest::testPasshash9InvalidWorkFactor()
@@ -183,7 +184,7 @@ void CutelystBotanTest::testInvalidHashString()
 void CutelystBotanTest::testSetPasswordField()
 {
     CredentialBotan bt;
-    const QString pwfield = u"passwort"_qs;
+    const QString pwfield = u"passwort"_s;
     bt.setPasswordField(pwfield);
     QCOMPARE(bt.passwordField(), pwfield);
 }
@@ -191,7 +192,7 @@ void CutelystBotanTest::testSetPasswordField()
 void CutelystBotanTest::testSetPasswordPreSalt()
 {
     CredentialBotan bt;
-    const QString salt = u"Lorem ipsum"_qs;
+    const QString salt = u"Lorem ipsum"_s;
     bt.setPasswordPreSalt(salt);
     QCOMPARE(bt.passwordPreSalt(), salt);
 }
@@ -199,7 +200,7 @@ void CutelystBotanTest::testSetPasswordPreSalt()
 void CutelystBotanTest::testSetPasswordPostSalt()
 {
     CredentialBotan bt;
-    const QString salt = u"Trallala"_qs;
+    const QString salt = u"Trallala"_s;
     bt.setPasswordPostSalt(salt);
     QCOMPARE(bt.passwordPostSalt(), salt);
 }
@@ -207,7 +208,7 @@ void CutelystBotanTest::testSetPasswordPostSalt()
 void CutelystBotanTest::testDefaultConstructor()
 {
     CredentialBotan bt;
-    QCOMPARE(bt.passwordField(), u"password"_qs);
+    QCOMPARE(bt.passwordField(), u"password"_s);
     QVERIFY(bt.passwordPreSalt().isEmpty());
     QVERIFY(bt.passwordPostSalt().isEmpty());
 }
